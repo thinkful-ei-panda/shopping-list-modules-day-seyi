@@ -136,7 +136,7 @@ const handleDeleteItemClicked = function () {
 const renameItem = function (id, newName) {
     //find the index of the item
     const item = store.items.find(item => item.id === id);
-  item.name = itemName;
+  item.name = newName;
 };
 
 const handleRenameClick = function () {
@@ -144,7 +144,7 @@ const handleRenameClick = function () {
     event.preventDefault();
     const id = getItemIdFromElement(event.currentTarget);
     const itemName = $(event.currentTarget).find('.shopping-item').val();
-    editListItemName(id, itemName);
+    renameItem(id, itemName);
     render();
   });
 };
