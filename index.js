@@ -14,7 +14,9 @@ const generateItemElement = function (item) {
   let itemTitle = `<span class='shopping-item shopping-item__checked'>${item.name}</span>`;
   if (!item.checked) {
     itemTitle = `
-     <span class='shopping-item'>${item.name}</span>
+      <form class="js-edit-item">
+        <input class="shopping-item" type="text" value="${item.name}" />
+      </form>
     `;
   }
 
@@ -116,6 +118,7 @@ const deleteListItem = function (id) {
   store.items.splice(index, 1);
 };
 
+
 const handleDeleteItemClicked = function () {
   // Like in `handleItemCheckClicked`, 
   // we use event delegation.
@@ -125,6 +128,23 @@ const handleDeleteItemClicked = function () {
     // Delete the item.
     deleteListItem(id);
     // Render the updated shopping list.
+    render();
+  });
+};
+
+//renames item
+const renameItem = function (id, newName) {
+    //find the index of the item
+    const item = store.items.find(item => item.id === id);
+  item.name = itemName;
+};
+
+const handleRenameClick = function () {
+  $('.js-shopping-list').on('submit', '.js-edit-item', event => {
+    event.preventDefault();
+    const id = getItemIdFromElement(event.currentTarget);
+    const itemName = $(event.currentTarget).find('.shopping-item').val();
+    editListItemName(id, itemName);
     render();
   });
 };
@@ -162,6 +182,7 @@ const handleShoppingList = function () {
   handleItemCheckClicked();
   handleDeleteItemClicked();
   handleToggleFilterClick();
+  handleRenameClick();
 };
 
 // when the page loads, call `handleShoppingList`
